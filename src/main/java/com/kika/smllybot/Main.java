@@ -1,43 +1,45 @@
 package com.kika.smllybot;
 
+import com.kika.smllybot.modules.ping.PrefixPing;
+import com.kika.smllybot.modules.ping.SlashPing;
 import io.github.cdimascio.dotenv.Dotenv;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
-import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.events.GenericEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.hooks.EventListener;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.jetbrains.annotations.NotNull;
 
-import javax.security.auth.login.LoginException;
+import static com.kika.smllybot.fun.colors.GREEN;
+import static com.kika.smllybot.fun.formatting.BOLD;
 
-public class Main {
+public class Main implements EventListener {
 
-    private final Dotenv config;
+    public static final String[] prefixes = {"JDA!", "java!"};
 
-    private final ShardManager shardManager;
+    public static void main(String[] args) throws InterruptedException {
+        Dotenv dotenv = Dotenv.load();
+        String token = dotenv.get("Token");
 
-    public Main() throws LoginException {
-        // Загрузка токена из .env
-        config = Dotenv.configure().load();
-        String Token = config.get("Token");
+        JDA jda = JDABuilder.createDefault(token)
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                .addEventListeners(new Main())
+                // Pinger
+                .addEventListeners(new PrefixPing())
+                .addEventListeners(new SlashPing())
+                // Economy
+                .build();
 
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(Token);
-        builder.setStatus(OnlineStatus.IDLE);
-        builder.setActivity(Activity.watching("42 ПЯТОРКА ЭЩКЕРЕ"));
-        shardManager = builder.build();
+        jda.awaitReady();
+        slashCmdInfo.registerCommands(jda);
     }
 
-    public Dotenv getconfig() {
-        return config;
-    }
-
-    public ShardManager getShardManager() {
-        return shardManager;
-    }
-
-    public static void main(String[] args) {
-        try {
-            Main bot = new Main();
-        } catch (LoginException e) {
-            System.out.println("Ошибка: Токен недействителен");
+    @Override
+    public void onEvent(@NotNull GenericEvent event) {
+        if (event instanceof ReadyEvent) {
+            System.out.println(BOLD + GREEN + "✅ Бот запущен");
         }
     }
+
 }
