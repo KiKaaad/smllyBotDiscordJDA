@@ -10,12 +10,25 @@ public class PrefixPing extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event)
     {
         if (event.getAuthor().isBot()) return;
-        Message message = event.getMessage();
-        String content = message.getContentRaw();
-        if (content.equals("ping") | content.equals("pong") | content.equals("пинг") | content.equals("понг"))
-        {
-            MessageChannel channel = event.getChannel();
-            channel.sendMessage("Pong!").queue();
+
+        String content = event.getMessage().getContentRaw().toLowerCase().trim();
+        String prefix = Main.prefixes[0].toLowerCase();
+
+        Set<String> commands = Set.of("ping", "pong", "пинг", "понг");
+
+        if (content.startsWith(prefix)) {
+            content = content.substring(prefix.length()).trim();
+        }
+
+        if (commands.contains(content)) {
+
+            event.getJDA().getRestPing().queue((time) -> {
+                String response = I18n.get("ping", "ping.response", lang);
+
+                event.getChannel().sendMessageFormat(response, time).queue();
+
+                System.out.println(GREEN + I18n.get("ping", "log.success", lang));
+            });
         }
         System.out.println("✅ Обработана команда пинг");
     }
