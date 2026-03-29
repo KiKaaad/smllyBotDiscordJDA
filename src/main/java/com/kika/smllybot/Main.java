@@ -38,7 +38,9 @@ public class Main implements EventListener {
     @Override
     public void onEvent(@NotNull GenericEvent event) {
         if (event instanceof ReadyEvent) {
-            System.out.println(BOLD + GREEN + "✅ Бот запущен");
+            String botStarted = I18n.get("default", "bot.started", lang);
+
+            System.out.printf(BOLD + GREEN + botStarted + "\n\n");
         }
     }
 
