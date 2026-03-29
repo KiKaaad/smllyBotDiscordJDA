@@ -1,7 +1,10 @@
 package testing;
 
-public class Program {
+import java.util.ArrayList;
 
-    
+class Program {
+
+    ArrayList<Long> userId = new ArrayList<>();
+
 
 }

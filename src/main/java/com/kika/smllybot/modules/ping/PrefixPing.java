@@ -1,14 +1,19 @@
 package com.kika.smllybot.modules.ping;
 
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import com.kika.smllybot.Main;
+import com.kika.smllybot.utils.I18n;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+import java.util.Set;
+
+import static com.kika.smllybot.utils.colors.GREEN;
+
 public class PrefixPing extends ListenerAdapter {
+    String lang = "by";
+
     @Override
-    public void onMessageReceived(MessageReceivedEvent event)
-    {
+    public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
 
         String content = event.getMessage().getContentRaw().toLowerCase().trim();
@@ -30,8 +35,5 @@ public class PrefixPing extends ListenerAdapter {
                 System.out.println(GREEN + I18n.get("ping", "log.success", lang));
             });
         }
-        System.out.println("✅ Обработана команда пинг");
     }
-
 }
-

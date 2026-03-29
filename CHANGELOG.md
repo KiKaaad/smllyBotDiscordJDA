@@ -1,7 +1,54 @@
-# 0.1.0-alpha | 🌙 Moon (03.03.2026)
+# 0.1.1-alpha | 🌙 Moon (30.03.2026)
 #### Последние изменения
+## 💻 Новое
+➕ Добавлена не полная реализация локализаций на Русский, Беларусский, Английский\
+➕ `I18n` внутри `utils` (ранее `fun`)
 
-Это примерный вариант чендж-лога
+## 🛠️ Изменено
+🏷️ `fun` переименована в `utils` в корне проекта
+
+
+
+### Как работает локализация
+На примере команды **ping**
+```Java
+String lang = "by"; // В будущем будет заменено на переменную из базы данных
+
+if (commands.contains(content)) {
+
+            event.getJDA().getRestPing().queue((time) -> {
+                /*
+                Генерация ответа в одну переменную
+                String response = I18n.get(module, key, lang); 
+                 
+                module - это в нашем случае ping из директории modules
+                
+                key - это значение из самого локализованного файла (пример: ping_ru.properties), например ping.response
+                где ping.response = {локализация}
+                например:
+                ping.response = 🏓 **Пинг** \nЗадержка API: `%d мс`
+                
+                lang - соответственно язык локализации который будет использоваться и который
+                ранее объявленный выше всех для удобства
+                */
+                String response = I18n.get("ping", "ping.response", lang);
+
+                event.getChannel().sendMessageFormat(response, time).queue();
+
+                // Вывод лога "Команда пинг использована"
+                System.out.println(GREEN + I18n.get("ping", "log.success", lang));
+            });
+```
+#### Расположение локализаций
+- resources
+  - language
+    - modules
+      - { moduleName }
+        - otherLocalization_ru.properties
+        - otherLocalization_by.properties
+        - localization_en.properties
+
+---
 
 ## ⚙️ Нумерация версий
 v{ глобальные изменения }.{ новый функционал }.{ патчи }-{ ветка разработки } | { альтернативное название } ({ дата выхода })

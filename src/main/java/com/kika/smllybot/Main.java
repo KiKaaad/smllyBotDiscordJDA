@@ -2,6 +2,7 @@ package com.kika.smllybot;
 
 import com.kika.smllybot.modules.ping.PrefixPing;
 import com.kika.smllybot.modules.ping.SlashPing;
+import com.kika.smllybot.utils.I18n;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -11,12 +12,13 @@ import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
 
-import static com.kika.smllybot.fun.colors.GREEN;
-import static com.kika.smllybot.fun.formatting.BOLD;
+import static com.kika.smllybot.utils.colors.GREEN;
+import static com.kika.smllybot.utils.formatting.BOLD;
 
 public class Main implements EventListener {
+    String lang = "by";
 
-    public static final String[] prefixes = {"JDA!", "java!"};
+    public static final String[] prefixes = {"JDA!"};
 
     public static void main(String[] args) throws InterruptedException {
         Dotenv dotenv = Dotenv.load();

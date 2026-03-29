@@ -1,4 +1,4 @@
-package com.kika.smllybot.fun;
+package com.kika.smllybot.utils;
 
 public class colors {
     public static final String RESET = "\u001B[0m";  // Сброс цвета

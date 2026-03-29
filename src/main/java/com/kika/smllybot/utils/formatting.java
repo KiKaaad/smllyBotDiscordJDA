@@ -1,4 +1,4 @@
-package com.kika.smllybot.fun;
+package com.kika.smllybot.utils;
 
 public class formatting {
     public static final String RESETFORMAT = "\\u001B[0m"; // Сброс форматирования
