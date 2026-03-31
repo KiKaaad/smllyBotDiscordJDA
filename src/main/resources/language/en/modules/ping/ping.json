@@ -1,5 +1,5 @@
 {
   "ping": {
-    "response": "🏓 **Пинг** \nЗадержка API: `%d мс`"
+    "response": "🏓**Ping**\nAPI Delay: `%d ms`"
   }
 }
