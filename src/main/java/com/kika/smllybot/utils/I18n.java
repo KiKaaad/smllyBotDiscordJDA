@@ -14,12 +14,9 @@ public class I18n {
 
     private static final String BASE_PATH = "language.modules";
 
-    /**
-     * Получает локализованную строку
-     * @param module Имя модуля (например: ping)
-     * @param key Ключ в файле (например: ping.response)
-     * @param lang Код языка (ru, en, by)
-     */
+        if (root == null) {
+            try (var is = I18n.class.getResourceAsStream(path)) {
+                if (is == null) return RED + "I18n | File not found: " + path;
 
     public static String get(String module, String key, String lang) {
         String bundlePath = String.format("%s.%s.%s", BASE_PATH, module, module);
