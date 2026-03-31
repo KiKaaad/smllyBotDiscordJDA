@@ -1,8 +1,12 @@
 package com.kika.smllybot;
 
+import com.kika.smllybot.database.postgresql.DatabaseManager;
+import com.kika.smllybot.database.postgresql.users.UserTable;
 import com.kika.smllybot.modules.ping.PrefixPing;
 import com.kika.smllybot.modules.ping.SlashPing;
+import com.kika.smllybot.modules.user.GlobalProfile;
 import com.kika.smllybot.utils.I18n;
+import com.kika.smllybot.utils.I18nRequest;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -12,11 +16,18 @@ import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import static com.kika.smllybot.utils.colors.GREEN;
+import static com.kika.smllybot.utils.colors.RED;
 import static com.kika.smllybot.utils.formatting.BOLD;
 
 public class Main implements EventListener {
-    String lang = "by";
+
+    String lang = "ru";
 
     public static final String[] prefixes = {"JDA!"};
 
@@ -33,7 +44,7 @@ public class Main implements EventListener {
         }
 
         Dotenv dotenv = Dotenv.load();
-        String token = dotenv.get("Token");
+        String token = dotenv.get("TOKEN");
 
         JDA jda = JDABuilder.createDefault(token)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
@@ -52,9 +63,9 @@ public class Main implements EventListener {
     @Override
     public void onEvent(@NotNull GenericEvent event) {
         if (event instanceof ReadyEvent) {
-            String botStarted = I18n.get("default", "bot.started", lang);
+            var logReq = new I18nRequest("ru", "logger", "StartBot", "start.success");
 
-            System.out.printf(BOLD + GREEN + botStarted + "\n\n");
+            System.out.printf(BOLD+GREEN + I18n.get(logReq) + "\n\n");
         }
     }
 

@@ -1,52 +1,61 @@
-# 0.1.1-alpha | 🌙 Moon (30.03.2026)
+# 0.1.2-alpha | 🌙 Moon (31.03.2026)
 #### Последние изменения
-## 💻 Новое
-➕ Добавлена не полная реализация локализаций на Русский, Беларусский, Английский\
-➕ `I18n` внутри `utils` (ранее `fun`)
+## ➕ Новое
+➕ Поддержка базы данных *PostgreSQL*\
+❗ Не забудьте добавить в .env новые данные которые написаны в [.env.meow](.env.meow)\
+❗ Бот НЕ загрузится, если базы  данных нет 
+###### Позже будет добавлена поддержка загрузки без базы данных. Естественно работая так, бот будет мега не функционален
+
+➕ Команда анкета\
+Выводит в ответ юзернейм пользователя, дату создания аккаунта в дискорде, локальный айди и айди дискорда
 
 ## 🛠️ Изменено
-🏷️ `fun` переименована в `utils` в корне проекта
-
-
-
-### Как работает локализация
-На примере команды **ping**
-```Java
-String lang = "by"; // В будущем будет заменено на переменную из базы данных
-
-if (commands.contains(content)) {
-
-            event.getJDA().getRestPing().queue((time) -> {
-                /*
-                Генерация ответа в одну переменную
-                String response = I18n.get(module, key, lang); 
-                 
-                module - это в нашем случае ping из директории modules
-                
-                key - это значение из самого локализованного файла (пример: ping_ru.properties), например ping.response
-                где ping.response = {локализация}
-                например:
-                ping.response = 🏓 **Пинг** \nЗадержка API: `%d мс`
-                
-                lang - соответственно язык локализации который будет использоваться и который
-                ранее объявленный выше всех для удобства
-                */
-                String response = I18n.get("ping", "ping.response", lang);
-
-                event.getChannel().sendMessageFormat(response, time).queue();
-
-                // Вывод лога "Команда пинг использована"
-                System.out.println(GREEN + I18n.get("ping", "log.success", lang));
-            });
+🚹 Теперь используется Gradle вместо Maven в пользу большего удобства\
+🏳️‍⚧️ PROPERTIES - В С Ё. Теперь используется JSON со структурой:
 ```
-#### Расположение локализаций
-- resources
-  - language
-    - modules
-      - { moduleName }
-        - otherLocalization_ru.properties
-        - otherLocalization_by.properties
-        - localization_en.properties
+└── 📁 resources
+    └── 📁 language
+        ├── 📁 by
+        │   ├── 📁 logger
+        │   └── 📁 modules
+        │       ├── 📁 default
+        │       │   └── 📄 default.json
+        │       ├── 📁 moderation
+        │       │   ├── 📄 ban.json
+        │       │   ├── 📄 kick.json
+        │       │   ├── 📄 mute.json
+        │       │   └── 📄 warn.json
+        │       └── 📁 ping
+        │           └── 📄 ping.json
+        ├── 📁 en
+        │   ├── 📁 logger
+        │   └── 📁 modules
+        │       ├── 📁 default
+        │       │   └── 📄 default.json
+        │       ├── 📁 moderation
+        │       │   ├── 📄 ban.json
+        │       │   ├── 📄 kick.json
+        │       │   ├── 📄 mute.json
+        │       │   └── 📄 warn.json
+        │       └── 📁 ping
+        │           └── 📄 ping.json
+        └── 📁 ru
+            ├── 📁 logger
+            └── 📁 modules
+                ├── 📁 default
+                │   └── 📄 default.json
+                ├── 📁 moderation
+                │   ├── 📄 ban.json
+                │   ├── 📄 kick.json
+                │   ├── 📄 mute.json
+                │   └── 📄 warn.json
+                └── 📁 ping
+                    └── 📄 ping.json
+```
+Она вполне наглядна и я думаю  дополнительных объяснений не нужно
+
+Криво косо создана некая локализация (ее зародыш), она еще не везде, но по крайней мере 
+я теперь знаю как это делается
 
 ---
 
@@ -60,9 +69,10 @@ v.1.2.34-release | 🐾 Meow (13.04.2016)
 **Release** — полностью готовая версия
 ### Что такое «Moon» в названии версии
 Это альтернативное название обновления связанное с первым числом в версии.\
-Оно связано с основными моментами обновления, например представим 
+Оно связано с основными моментами обновления, например представим
 добавление множества рп-команд, я бы его назвал — `v2.0.0 | Pat Pat`
 
 
 ### 📂 Список прошлых обновлений
+- [v0.1.1-alpha | Moon](changelogs/v0.1.1.md)
 - [v0.1.0-alpha | Moon](changelogs/v0.1.0.md)

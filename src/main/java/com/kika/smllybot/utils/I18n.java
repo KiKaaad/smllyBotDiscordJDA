@@ -1,9 +1,14 @@
 package com.kika.smllybot.utils;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.kika.smllybot.utils.colors.RED;
 
 public class I18n {
     private static final Map<String, JsonObject> cache = new HashMap<>();
@@ -12,23 +17,30 @@ public class I18n {
 
         String path = request.getFilePath();
 
-    private static final String BASE_PATH = "language.modules";
+        JsonObject root = cache.get(path);
 
         if (root == null) {
             try (var is = I18n.class.getResourceAsStream(path)) {
                 if (is == null) return RED + "I18n | File not found: " + path;
 
-    public static String get(String module, String key, String lang) {
-        String bundlePath = String.format("%s.%s.%s", BASE_PATH, module, module);
-        String cacheKey = bundlePath + "_" + lang;
+                root = JsonParser.parseReader(new InputStreamReader(is, StandardCharsets.UTF_8)).getAsJsonObject();
+                cache.put(path, root);
+            } catch (Exception e) {
+                return RED + "I18n | Ошибка: " + e.getMessage();
+            }
+        }
 
-        ResourceBundle bundle = cache.computeIfAbsent(cacheKey, k ->
-                ResourceBundle.getBundle(bundlePath, Locale.of(lang))
-        );
+        String key = request.key();
+        String[] parts = key.split("\\.");
+        JsonElement current = root;
 
-        return bundle.getString(key);
-    }
-}
+        for (String part : parts) {
+            if (current != null && current.isJsonObject()) {
+                current = current.getAsJsonObject().get(part);
+            } else {
+                return RED + "I18n | Ключ " + key + " не найден в " + path;
+            }
+        }
 
         // Если все верно - то все верно, иначе в терминале увидишь ключ который мы пытались найти, но не нашли
         return (current != null && current.isJsonPrimitive()) ? current.getAsString() : key;

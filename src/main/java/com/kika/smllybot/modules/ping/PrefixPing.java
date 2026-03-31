@@ -2,6 +2,7 @@ package com.kika.smllybot.modules.ping;
 
 import com.kika.smllybot.Main;
 import com.kika.smllybot.utils.I18n;
+import com.kika.smllybot.utils.I18nRequest;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -10,7 +11,6 @@ import java.util.Set;
 import static com.kika.smllybot.utils.colors.GREEN;
 
 public class PrefixPing extends ListenerAdapter {
-    String lang = "by";
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
@@ -28,11 +28,14 @@ public class PrefixPing extends ListenerAdapter {
         if (commands.contains(content)) {
 
             event.getJDA().getRestPing().queue((time) -> {
-                String response = I18n.get("ping", "ping.response", lang);
+                var getString = new I18nRequest("ru", "modules", "ping", "ping", "ping.response");
+                String response = I18n.get(getString);
 
                 event.getChannel().sendMessageFormat(response, time).queue();
 
-                System.out.println(GREEN + I18n.get("ping", "log.success", lang));
+                var logReq = new I18nRequest("ru", "logger", "CommandUsed", "ping.used");
+                System.out.println(GREEN + I18n.get(logReq));
+
             });
         }
     }
