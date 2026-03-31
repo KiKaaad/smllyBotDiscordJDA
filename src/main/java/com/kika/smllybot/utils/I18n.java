@@ -30,3 +30,8 @@ public class I18n {
     }
 }
 
+        // Если все верно - то все верно, иначе в терминале увидишь ключ который мы пытались найти, но не нашли
+        return (current != null && current.isJsonPrimitive()) ? current.getAsString() : key;
+    }
+
+}
