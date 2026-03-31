@@ -6,7 +6,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
 public class I18n {
-    private static final Map<String, ResourceBundle> cache = new ConcurrentHashMap<>();
+    private static final Map<String, JsonObject> cache = new HashMap<>();
+
+    public static String get(I18nRequest request) {
+
+        String path = request.getFilePath();
 
     private static final String BASE_PATH = "language.modules";
 
