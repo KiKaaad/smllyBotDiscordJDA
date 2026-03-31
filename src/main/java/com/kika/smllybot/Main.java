@@ -27,8 +27,6 @@ import static com.kika.smllybot.utils.formatting.BOLD;
 
 public class Main implements EventListener {
 
-    String lang = "ru";
-
     public static final String[] prefixes = {"JDA!"};
 
     public static void main(String[] args) throws InterruptedException {

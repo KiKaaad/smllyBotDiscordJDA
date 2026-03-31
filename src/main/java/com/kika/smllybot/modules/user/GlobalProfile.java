@@ -15,7 +15,6 @@ public class GlobalProfile extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
 
-        String msg = event.getMessage().getContentRaw();
         String content = event.getMessage().getContentRaw().toLowerCase().trim();
         String prefix = Main.prefixes[0].toLowerCase();
 
