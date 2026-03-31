@@ -21,6 +21,17 @@ public class Main implements EventListener {
     public static final String[] prefixes = {"JDA!"};
 
     public static void main(String[] args) throws InterruptedException {
+        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+
+        try (Connection conn = DatabaseManager.getConnection()) {
+            System.out.println(BOLD+GREEN + "✅ DB:ON | База данных PostgreSQL подключена!");
+            UserTable.createTable();
+        } catch (SQLException e) {
+            System.err.printf(BOLD+RED + "⛔ DB:ERR | Не удалось связаться с базой!");
+            System.err.printf(BOLD+RED + "💬 Причина: " + e.getMessage());
+            return;
+        }
+
         Dotenv dotenv = Dotenv.load();
         String token = dotenv.get("Token");
 
