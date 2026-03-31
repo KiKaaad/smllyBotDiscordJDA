@@ -41,7 +41,8 @@ public class Main implements EventListener {
                 // Pinger
                 .addEventListeners(new PrefixPing())
                 .addEventListeners(new SlashPing())
-                // Economy
+                // User
+                .addEventListeners(new GlobalProfile())
                 .build();
 
         jda.awaitReady();
